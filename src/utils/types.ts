@@ -37,4 +37,16 @@ export type TUser = {
   name: string;
 };
 
+export type TUserReset = {
+  password: string;
+  token: string;
+};
+
 export type TTabMode = 'bun' | 'sauce' | 'main';
+
+export enum RequestStatus {
+  IDLE = 'idle',
+  SUCCESS = 'success',
+  FAILED = 'error',
+  LOADING = 'loading'
+}
