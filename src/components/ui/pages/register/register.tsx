@@ -11,12 +11,12 @@ import { RegisterUIProps } from './type';
 export const RegisterUI: FC<RegisterUIProps> = ({
   errorText,
   email,
-  setEmail,
-  handleSubmit,
-  password,
-  setPassword,
   userName,
-  setUserName
+  password,
+  setEmail,
+  setPassword,
+  setUserName,
+  handleSubmit
 }) => (
   <main className={styles.container}>
     <div className={`pt-6 ${styles.wrapCenter}`}>
