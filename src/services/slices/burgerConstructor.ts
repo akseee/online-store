@@ -4,7 +4,7 @@ import { TConstructorIngredient, TIngredient } from '@utils-types';
 
 const sliceName = 'burgerConstructor';
 
-type TInitialState = {
+export type TInitialState = {
   constructorItems: {
     bun: TIngredient | null;
     ingredients: TConstructorIngredient[];
@@ -75,5 +75,6 @@ export const burgerConstructor = createSlice({
   }
 });
 
+export const burgerConstructorReducer = burgerConstructor.reducer;
 export const burgerConstructorSelectors = burgerConstructor.selectors;
 export const burgerConstructorActions = burgerConstructor.actions;
