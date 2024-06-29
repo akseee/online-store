@@ -67,14 +67,15 @@ const mockIngredient3 = {
 
 const mockId = expect.any(String);
 
-describe('Проверяем редьюсеры слайса burgerConstructor:', () => {
+describe('Reducers of the slice [burgerConstructor]:', () => {
   const initialState: TInitialState = {
     constructorItems: {
       bun: null,
       ingredients: []
     }
   };
-  test('[Тест 1] removeIngredient: обработка экшена удаления ингредиента', () => {
+
+  test('[removeIngredient]: handling the delete ingredient action', () => {
     const initialState = {
       constructorItems: {
         bun: null,
@@ -88,13 +89,13 @@ describe('Проверяем редьюсеры слайса burgerConstructor:'
       initialState,
       removeIngredient(0)
     );
-
     const { ingredients } = newState.constructorItems;
 
     expect(ingredients).toEqual([]);
   });
-  describe('Обработка экшена добавления ингредиентов', () => {
-    test('[Тест 2] addIngredient: добавления булки', () => {
+
+  describe('Handling the add ingredients action', () => {
+    test('[addIngredient]: should add a bun ingredient', () => {
       const { addIngredient } = burgerConstructorActions;
       const newState = burgerConstructorReducer(
         initialState,
@@ -108,7 +109,7 @@ describe('Проверяем редьюсеры слайса burgerConstructor:'
       });
     });
 
-    test('[Тест 3] addIngredient: добавления начинки/соуса', () => {
+    test('[addIngredient]: should add a non-bun ingredient', () => {
       const { addIngredient } = burgerConstructorActions;
       const newState = burgerConstructorReducer(
         initialState,
@@ -123,7 +124,7 @@ describe('Проверяем редьюсеры слайса burgerConstructor:'
     });
   });
 
-  describe('Проверяем обработку экшена изменения порядка ингредиентов в начинке', () => {
+  describe('Handling of the change ingredient order action', () => {
     const initialState: TInitialState = {
       constructorItems: {
         bun: null,
@@ -143,7 +144,7 @@ describe('Проверяем редьюсеры слайса burgerConstructor:'
         { ...mockIngredient3, id: '3' }
       ]
     };
-    test('[Тест 4] moveIngredientUp: изменения порядка верх', () => {
+    test('[moveIngredientUp]: should сhange order bottom to top', () => {
       const { moveIngredientUp } = burgerConstructorActions;
       const newState = burgerConstructorReducer(
         initialState,
@@ -152,7 +153,7 @@ describe('Проверяем редьюсеры слайса burgerConstructor:'
       expect(newState.constructorItems).toEqual(resultState);
     });
 
-    test('[Тест 5] moveIngredientDown: изменения порядка вниз', () => {
+    test('[moveIngredientDown]: should сhange order top to bottom', () => {
       const { moveIngredientDown } = burgerConstructorActions;
       const newState = burgerConstructorReducer(
         initialState,
@@ -161,6 +162,4 @@ describe('Проверяем редьюсеры слайса burgerConstructor:'
       expect(newState.constructorItems).toEqual(resultState);
     });
   });
-
-  // test('[Первый тест] ', () => {});
 });

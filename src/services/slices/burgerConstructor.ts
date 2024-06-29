@@ -1,4 +1,3 @@
-import { ingredientsActions } from './ingredients';
 import { PayloadAction, createSlice, nanoid } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 
