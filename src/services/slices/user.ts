@@ -25,28 +25,46 @@ export const registerUser = createAsyncThunk<
   TAuthResponse,
   TRegisterData,
   { extra: typeof burgerApi }
->(
-  `${sliceName}/registerUser`,
-  async (data, { extra: api }) => await api.registerUserApi(data)
-);
+>(`${sliceName}/registerUser`, async (data, { extra: api }) => {
+  try {
+    const result = await api.registerUserApi(data);
+    setCookie('accessToken', result.accessToken);
+    localStorage.setItem('refreshToken', result.refreshToken);
+    return result;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
 
 export const loginUser = createAsyncThunk<
   TAuthResponse,
   TLoginData,
   { extra: typeof burgerApi }
->(
-  `${sliceName}/loginUser`,
-  async (data, { extra: api }) => await api.loginUserApi(data)
-);
+>(`${sliceName}/loginUser`, async (data, { extra: api }) => {
+  try {
+    const result = await api.loginUserApi(data);
+    setCookie('accessToken', result.accessToken);
+    localStorage.setItem('refreshToken', result.refreshToken);
+    return result;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
 
 export const logoutUser = createAsyncThunk<
   TServerResponse<{}>,
   void,
   { extra: typeof burgerApi }
->(
-  `${sliceName}/logoutUser`,
-  async (_, { extra: api }) => await api.logoutApi()
-);
+>(`${sliceName}/logoutUser`, async (_, { extra: api }) => {
+  try {
+    const result = await api.logoutApi();
+    deleteCookie('accessToken');
+    localStorage.removeItem('refreshToken');
+    return result;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
 
 export const updateUser = createAsyncThunk<
   TUserResponse,
@@ -74,7 +92,7 @@ export const resetPassword = createAsyncThunk<
   api.resetPasswordApi(data)
 );
 
-type TInitialState = {
+export type TInitialState = {
   data: TUser | null;
   isAuthChecked: boolean;
   requestStatus: RequestStatus;
@@ -114,8 +132,6 @@ export const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.requestStatus = RequestStatus.SUCCESS;
         state.data = action.payload.user;
-        setCookie('accessToken', action.payload.accessToken);
-        localStorage.setItem('refreshToken', action.payload.refreshToken);
       })
       .addCase(registerUser.rejected, (state) => {
         state.requestStatus = RequestStatus.FAILED;
@@ -124,18 +140,15 @@ export const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.requestStatus = RequestStatus.SUCCESS;
         state.data = action.payload.user;
-        setCookie('accessToken', action.payload.accessToken);
-        localStorage.setItem('refreshToken', action.payload.refreshToken);
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state) => {
         state.requestStatus = RequestStatus.FAILED;
       })
 
       .addCase(logoutUser.fulfilled, (state) => {
         state.requestStatus = RequestStatus.SUCCESS;
         state.data = null;
-        deleteCookie('accessToken');
-        localStorage.removeItem('refreshToken');
+        state.isAuthChecked = false;
       })
       .addCase(logoutUser.rejected, (state) => {
         state.requestStatus = RequestStatus.FAILED;
@@ -151,5 +164,6 @@ export const userSlice = createSlice({
   }
 });
 
+export const userReducer = userSlice.reducer;
 export const userSelectors = userSlice.selectors;
 export const userActions = userSlice.actions;

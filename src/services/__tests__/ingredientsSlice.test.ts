@@ -120,7 +120,7 @@ describe('Reducers of the slice [ingredients]:', () => {
     test('[getIngredients]: should set error and change status to failed', () => {
       const actualState = ingredientsReducer(
         { ...initialState, requestStatus: RequestStatus.LOADING, error: null },
-        getIngredients.rejected(new Error('Test Error'), 'Test Error')
+        getIngredients.rejected(new Error('Test Error'), '')
       );
       expect(actualState).toEqual({
         ...initialState,
