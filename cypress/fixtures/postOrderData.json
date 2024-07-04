@@ -1,1 +1,1 @@
-{ "success": true, "name": "Тестовый бугер", "order": "42" }
+{ "success": true, "name": "Тестовый бугер", "order": { "nubmer": 42 } }
