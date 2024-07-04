@@ -39,39 +39,3 @@ describe('E2E Stellar-burger constructor test', () => {
     });
   });
 });
-
-// describe('E2E Stellar-burger order test', () => {
-//   beforeEach(() => {
-//     cy.viewport(1300, 800);
-//     cy.visit('http://localhost:4000');
-//     cy.intercept('GET', 'api/auth/user', { fixture: 'userData.json' });
-//     cy.intercept('POST', 'api/orders', { fixture: 'postOrderData.json' }).as(
-//       'postOrderData'
-//     );
-
-//     window.localStorage.setItem('refreshToken', JSON.stringify('refresh-test'));
-//     cy.setCookie('accessToken', 'acesss-test');
-//   });
-
-//   afterEach(() => {
-//     cy.clearCookie('refreshToken');
-//     cy.clearCookie('accessToken');
-//   });
-
-//   it('', () => {
-//     cy.get("[data-cy='buns']").contains('Добавить').click();
-//     cy.get("[data-cy='mains']").contains('Добавить').click();
-//     cy.get("[data-cy='sauces']").contains('Добавить').click();
-
-//     cy.get("[data-cy='constructor']").contains('Оформить заказ').click();
-
-//     cy.wait('@postOrderData')
-//       .its('request.body')
-//       .should('deep.equal', {
-//         ingredients: ['1', '7', '3', '1']
-//       });
-
-//     cy.get().contains('42').should('exist');
-//   });
-//   // it('', () => {});
-// });
