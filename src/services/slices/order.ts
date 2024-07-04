@@ -106,7 +106,7 @@ export const orderSlice = createSlice({
     });
     builder.addCase(postOrderData.rejected, (state) => {
       state.requestStatus = RequestStatus.FAILED;
-      state.orderRequest = true;
+      state.orderRequest = false;
     });
   }
 });
