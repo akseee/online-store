@@ -1,4 +1,3 @@
-import { orderBurgerApi, TFeedsResponse } from './../../utils/burger-api';
 import { TOrderResponse, TNewOrderResponse } from '@api';
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -35,7 +34,7 @@ export const postOrderData = createAsyncThunk<
   async (orderData, { extra: api }) => await api.orderBurgerApi(orderData)
 );
 
-type TInitialState = {
+export type TInitialState = {
   orderInfo: TOrder | null;
   userOrdersInfo: TOrder[];
   orderRequest: boolean;
@@ -60,6 +59,7 @@ export const orderSlice = createSlice({
     },
     setOrderData: (state, action) => {
       state.orderInfo = action.payload;
+      console.log(action.payload);
     },
     removeOrderModal: (state) => {
       state.orderModalData = null;
@@ -74,29 +74,43 @@ export const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getUserOrders.fulfilled, (state, action) => {
-      state.userOrdersInfo = action.payload;
       state.requestStatus = RequestStatus.SUCCESS;
+      state.userOrdersInfo = action.payload;
+    });
+    builder.addCase(getUserOrders.pending, (state) => {
+      state.requestStatus = RequestStatus.LOADING;
+    });
+    builder.addCase(getUserOrders.rejected, (state) => {
+      state.requestStatus = RequestStatus.FAILED;
     });
 
     builder.addCase(getOrderData.fulfilled, (state, action) => {
-      state.orderInfo = action.payload.orders[0];
       state.requestStatus = RequestStatus.SUCCESS;
+      state.orderInfo = action.payload.orders[0];
+    });
+    builder.addCase(getOrderData.pending, (state) => {
+      state.requestStatus = RequestStatus.LOADING;
+    });
+    builder.addCase(getOrderData.rejected, (state) => {
+      state.requestStatus = RequestStatus.FAILED;
     });
 
     builder.addCase(postOrderData.fulfilled, (state, action) => {
+      state.requestStatus = RequestStatus.SUCCESS;
       state.orderModalData = action.payload.order;
       state.orderRequest = false;
-      state.requestStatus = RequestStatus.SUCCESS;
     });
     builder.addCase(postOrderData.pending, (state) => {
-      state.orderRequest = true;
       state.requestStatus = RequestStatus.LOADING;
+      state.orderRequest = true;
     });
     builder.addCase(postOrderData.rejected, (state) => {
-      state.orderRequest = true;
+      state.requestStatus = RequestStatus.FAILED;
+      state.orderRequest = false;
     });
   }
 });
 
+export const orderReducer = orderSlice.reducer;
 export const orderSelectors = orderSlice.selectors;
 export const orderActions = orderSlice.actions;

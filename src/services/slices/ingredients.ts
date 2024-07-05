@@ -13,7 +13,7 @@ export const getIngredients = createAsyncThunk<
   async (_, { extra: api }) => await api.getIngredientsApi()
 );
 
-type TInitialState = {
+export type TInitialState = {
   ingredients: TIngredient[];
   currentIngredient: TIngredient | null;
   requestStatus: RequestStatus;
@@ -47,15 +47,19 @@ export const ingredientsSlice = createSlice({
     builder.addCase(getIngredients.fulfilled, (state, action) => {
       state.requestStatus = RequestStatus.SUCCESS;
       state.ingredients = action.payload;
+      state.error = null;
     });
     builder.addCase(getIngredients.pending, (state) => {
       state.requestStatus = RequestStatus.LOADING;
+      state.error = null;
     });
-    builder.addCase(getIngredients.rejected, (state) => {
+    builder.addCase(getIngredients.rejected, (state, action) => {
       state.requestStatus = RequestStatus.FAILED;
+      state.error = action.error.message || 'Ошибка загрузки ингредиентов';
     });
   }
 });
 
+export const ingredientsReducer = ingredientsSlice.reducer;
 export const ingredientsSelectors = ingredientsSlice.selectors;
 export const ingredientsActions = ingredientsSlice.actions;

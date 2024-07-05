@@ -19,7 +19,6 @@ import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
 import { checkAuthUser, userActions } from '../../services/slices/user';
 import { getIngredients } from '../../services/slices/ingredients';
-import { getFeedData } from '../../services/slices/feed';
 
 const App = () => {
   const location = useLocation();
