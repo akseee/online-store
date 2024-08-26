@@ -6,6 +6,8 @@ Main goal of the project was to get to know more advanced React and Routing as w
 
 [Figma](<https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design>)
 
+[Deploy](https://burger-store-project.netlify.app/)
+
 #### Technologies Used
 
 - **HTML, CSS, TS**
