@@ -83,8 +83,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.js',
-    publicPath: process.env.PUBLIC_URL ? process.env.PUBLIC_URL : '/'
+    filename: 'bundle.js'
   },
   devServer: {
     static: path.join(__dirname, './dist'),
