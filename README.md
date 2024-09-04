@@ -1,4 +1,4 @@
-# Проектная работа 11-го спринта
+# Academic project
 
 Stellar Burgers is a web application designed for a cosmic burger restaurant where users can create and order burgers using unique ingredients. The application supports user registration, login, order feed browsing, and personal data management.
 
